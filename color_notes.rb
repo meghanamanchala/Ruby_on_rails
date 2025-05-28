@@ -1,19 +1,27 @@
 require 'colorize'
 
 def write_note(note)
-  File.open("notes.txt", "a") do |file|
-    file.puts(note)
+  begin
+    File.open("notes.txt", "a") do |file|
+      file.puts(note)
+    end
+    puts "Note saved!".green
+  rescue => e
+    puts "Error saving note: #{e.message}".red
   end
-  puts "Note saved!".green
 end
 
 def read_notes
-  if File.exist?("notes.txt")
-    puts "Your Notes:".blue
-    puts "-" * 20
-    File.foreach("notes.txt") { |line| puts line.yellow }
-  else
-    puts "No notes found.".red
+  begin
+    if File.exist?("notes.txt")
+      puts "Your Notes:".blue
+      puts "-" * 20
+      File.foreach("notes.txt") { |line| puts line.yellow }
+    else
+      puts "No notes found.".red
+    end
+  rescue => e
+    puts "Error reading notes: #{e.message}".red
   end
 end
 
